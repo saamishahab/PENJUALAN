@@ -11,6 +11,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -38,6 +40,15 @@ public class Pelanggan extends javax.swing.JFrame {
      */
     public Pelanggan() {
         initComponents();
+        allVisible();
+    }
+    
+    public void allVisible()
+    {
+        panel_pelanggan.setVisible(false);
+        panel_barang.setVisible(false);
+        jLabel2.setVisible(false);
+        btn_laporan.setVisible(false);
     }
     
     
@@ -58,36 +69,73 @@ public class Pelanggan extends javax.swing.JFrame {
         btn_transaksi = new javax.swing.JButton();
         btn_laporan = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
-        panel_pelanggan = new javax.swing.JPanel();
+        panel_barang = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
-        et_kodepelanggan = new javax.swing.JTextField();
+        et_kodebarang = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        rbLaki = new javax.swing.JRadioButton();
-        rbPerempuan = new javax.swing.JRadioButton();
         jLabel7 = new javax.swing.JLabel();
-        et_notelp = new javax.swing.JTextField();
+        et_hargabeli = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        et_alamat = new javax.swing.JTextArea();
-        et_caripelanggan = new javax.swing.JTextField();
+        et_caribarang = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        tablePelanggan = new javax.swing.JTable();
+        tableBarang = new javax.swing.JTable();
         jLabel10 = new javax.swing.JLabel();
+        et_namabarang = new javax.swing.JTextField();
+        btSimpanBarang = new javax.swing.JButton();
+        btUbahBarang = new javax.swing.JButton();
+        btHapusBarang = new javax.swing.JButton();
+        btnClearbarang = new javax.swing.JButton();
+        cb_kategori = new javax.swing.JComboBox<>();
+        et_hargajual = new javax.swing.JTextField();
+        panel_transaksi = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tableTrheader = new javax.swing.JTable();
+        et_carinotransaksi = new javax.swing.JTextField();
+        jLabel22 = new javax.swing.JLabel();
+        btn_tambahtransaksi = new javax.swing.JButton();
+        jLabel23 = new javax.swing.JLabel();
+        lbl_namapelanggan = new javax.swing.JLabel();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        tableTrlines = new javax.swing.JTable();
+        lbl_totaltransaksi = new javax.swing.JLabel();
+        jLabel26 = new javax.swing.JLabel();
+        jLabel27 = new javax.swing.JLabel();
+        lbl_notransaksi = new javax.swing.JLabel();
+        panel_pelanggan = new javax.swing.JPanel();
+        jLabel11 = new javax.swing.JLabel();
+        et_kodepelanggan = new javax.swing.JTextField();
+        jLabel12 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        rbLaki = new javax.swing.JRadioButton();
+        rbPerempuan = new javax.swing.JRadioButton();
+        jLabel14 = new javax.swing.JLabel();
+        et_notelp = new javax.swing.JTextField();
+        jLabel15 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        et_alamat = new javax.swing.JTextArea();
+        et_caripelanggan = new javax.swing.JTextField();
+        jLabel16 = new javax.swing.JLabel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        tablePelanggan = new javax.swing.JTable();
+        jLabel17 = new javax.swing.JLabel();
         et_namapelanggan = new javax.swing.JTextField();
         btSimpanPelanggan = new javax.swing.JButton();
         btUbahPelanggan = new javax.swing.JButton();
         btHapusPelanggan = new javax.swing.JButton();
         btnClearpelanggan = new javax.swing.JButton();
-        panel_transaksi = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
+        jLabel19 = new javax.swing.JLabel();
+        jLabel18 = new javax.swing.JLabel();
+        jLabel20 = new javax.swing.JLabel();
+        jLabel21 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        setMinimumSize(new java.awt.Dimension(900, 480));
+        setMinimumSize(new java.awt.Dimension(1090, 480));
         setResizable(false);
-        setSize(new java.awt.Dimension(900, 480));
+        setSize(new java.awt.Dimension(1090, 480));
         getContentPane().setLayout(null);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
@@ -95,6 +143,12 @@ public class Pelanggan extends javax.swing.JFrame {
         jLabel1.setText("Master Data");
 
         btn_barang.setText("Barang");
+        btn_barang.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btn_barang.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_barangMouseClicked(evt);
+            }
+        });
 
         btn_pelanggan.setText("Pelanggan");
         btn_pelanggan.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -113,6 +167,12 @@ public class Pelanggan extends javax.swing.JFrame {
         });
 
         btn_laporan.setText("Laporan");
+        btn_laporan.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btn_laporan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_laporanActionPerformed(evt);
+            }
+        });
 
         jLabel2.setText("Laporan");
 
@@ -166,14 +226,282 @@ public class Pelanggan extends javax.swing.JFrame {
         getContentPane().add(jPanel1);
         jPanel1.setBounds(10, 10, 120, 430);
 
-        panel_pelanggan.setBackground(new java.awt.Color(255, 255, 255));
-        panel_pelanggan.setLayout(null);
+        panel_barang.setBackground(new java.awt.Color(255, 255, 255));
+        panel_barang.setLayout(null);
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel5.setText("Pelanggan");
-        panel_pelanggan.add(jLabel5);
+        jLabel5.setText("Barang");
+        panel_barang.add(jLabel5);
         jLabel5.setBounds(0, 0, 750, 30);
+
+        et_kodebarang.setToolTipText("Nama");
+        et_kodebarang.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                et_kodebarangActionPerformed(evt);
+            }
+        });
+        panel_barang.add(et_kodebarang);
+        et_kodebarang.setBounds(10, 60, 300, 20);
+
+        jLabel4.setText("Kode Barang");
+        panel_barang.add(jLabel4);
+        jLabel4.setBounds(10, 40, 120, 20);
+
+        jLabel6.setText("Kategori");
+        panel_barang.add(jLabel6);
+        jLabel6.setBounds(10, 140, 40, 14);
+
+        jLabel7.setText("Harga Beli");
+        panel_barang.add(jLabel7);
+        jLabel7.setBounds(10, 200, 100, 14);
+        panel_barang.add(et_hargabeli);
+        et_hargabeli.setBounds(10, 220, 300, 20);
+
+        jLabel8.setText("Harga Jual");
+        panel_barang.add(jLabel8);
+        jLabel8.setBounds(10, 250, 90, 14);
+
+        et_caribarang.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                et_caribarangKeyTyped(evt);
+            }
+        });
+        panel_barang.add(et_caribarang);
+        et_caribarang.setBounds(320, 60, 420, 20);
+
+        jLabel9.setText("Cari Nama Barang");
+        panel_barang.add(jLabel9);
+        jLabel9.setBounds(320, 40, 190, 14);
+
+        tableBarang.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Kode", "Nama", "Kategori", "Harga Beli", "Harga Jual"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Double.class, java.lang.Double.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tableBarang.getTableHeader().setReorderingAllowed(false);
+        tableBarang.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableBarangMouseClicked(evt);
+            }
+        });
+        jScrollPane3.setViewportView(tableBarang);
+
+        panel_barang.add(jScrollPane3);
+        jScrollPane3.setBounds(320, 90, 420, 330);
+
+        jLabel10.setText("Nama Barang");
+        panel_barang.add(jLabel10);
+        jLabel10.setBounds(10, 90, 120, 20);
+
+        et_namabarang.setToolTipText("Nama");
+        et_namabarang.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                et_namabarangActionPerformed(evt);
+            }
+        });
+        panel_barang.add(et_namabarang);
+        et_namabarang.setBounds(10, 110, 300, 20);
+
+        btSimpanBarang.setText("Simpan");
+        btSimpanBarang.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btSimpanBarang.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btSimpanBarangMouseClicked(evt);
+            }
+        });
+        btSimpanBarang.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btSimpanBarangActionPerformed(evt);
+            }
+        });
+        panel_barang.add(btSimpanBarang);
+        btSimpanBarang.setBounds(10, 340, 90, 23);
+
+        btUbahBarang.setText("Ubah");
+        btUbahBarang.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btUbahBarang.setPreferredSize(new java.awt.Dimension(67, 23));
+        btUbahBarang.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btUbahBarangMouseClicked(evt);
+            }
+        });
+        panel_barang.add(btUbahBarang);
+        btUbahBarang.setBounds(110, 340, 100, 23);
+
+        btHapusBarang.setText("Hapus");
+        btHapusBarang.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btHapusBarang.setPreferredSize(new java.awt.Dimension(67, 23));
+        btHapusBarang.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btHapusBarangMouseClicked(evt);
+            }
+        });
+        panel_barang.add(btHapusBarang);
+        btHapusBarang.setBounds(220, 340, 90, 23);
+
+        btnClearbarang.setText("Clear");
+        btnClearbarang.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnClearbarang.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnClearbarangMouseClicked(evt);
+            }
+        });
+        panel_barang.add(btnClearbarang);
+        btnClearbarang.setBounds(10, 310, 300, 23);
+
+        cb_kategori.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Dapur", "Fashion Pria", "Fashion Wanita", "Aksesoris", "Film & Musik", "Gaming", "Phone & Tablet", "Otomotif", "Logam", "Peliharaan", "Olahraga", "Rumah Tangga", "Pertukangan", "Kesehatan", "Buku", "Furniture", "Komputer Software", "Komputer Hardware", "Elektronik" }));
+        panel_barang.add(cb_kategori);
+        cb_kategori.setBounds(10, 160, 300, 20);
+
+        et_hargajual.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                et_hargajualActionPerformed(evt);
+            }
+        });
+        panel_barang.add(et_hargajual);
+        et_hargajual.setBounds(10, 270, 300, 20);
+
+        getContentPane().add(panel_barang);
+        panel_barang.setBounds(140, 10, 750, 430);
+
+        panel_transaksi.setBackground(new java.awt.Color(255, 255, 255));
+        panel_transaksi.setLayout(null);
+
+        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel3.setText("Transaksi");
+        panel_transaksi.add(jLabel3);
+        jLabel3.setBounds(10, 0, 690, 30);
+
+        tableTrheader.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Tanggal", "No Transaksi"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(tableTrheader);
+
+        panel_transaksi.add(jScrollPane1);
+        jScrollPane1.setBounds(10, 92, 200, 290);
+
+        et_carinotransaksi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                et_carinotransaksiActionPerformed(evt);
+            }
+        });
+        panel_transaksi.add(et_carinotransaksi);
+        et_carinotransaksi.setBounds(10, 60, 200, 20);
+
+        jLabel22.setText("Cari No Transaksi");
+        panel_transaksi.add(jLabel22);
+        jLabel22.setBounds(10, 40, 200, 14);
+
+        btn_tambahtransaksi.setText("Tambah");
+        btn_tambahtransaksi.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_tambahtransaksiMouseClicked(evt);
+            }
+        });
+        panel_transaksi.add(btn_tambahtransaksi);
+        btn_tambahtransaksi.setBounds(10, 390, 200, 23);
+
+        jLabel23.setText("Nama Pelanggan");
+        panel_transaksi.add(jLabel23);
+        jLabel23.setBounds(230, 120, 170, 14);
+
+        lbl_namapelanggan.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lbl_namapelanggan.setText("Nama");
+        panel_transaksi.add(lbl_namapelanggan);
+        lbl_namapelanggan.setBounds(410, 120, 310, 14);
+
+        tableTrlines.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "kode", "barang", "harga", "qty", "total"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.Double.class, java.lang.Integer.class, java.lang.Double.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, true, true
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane5.setViewportView(tableTrlines);
+
+        panel_transaksi.add(jScrollPane5);
+        jScrollPane5.setBounds(232, 142, 490, 210);
+
+        lbl_totaltransaksi.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lbl_totaltransaksi.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lbl_totaltransaksi.setText("Total");
+        panel_transaksi.add(lbl_totaltransaksi);
+        lbl_totaltransaksi.setBounds(460, 360, 260, 17);
+
+        jLabel26.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel26.setText("Total Transaksi :");
+        panel_transaksi.add(jLabel26);
+        jLabel26.setBounds(230, 360, 140, 17);
+
+        jLabel27.setText("No Transaksi");
+        panel_transaksi.add(jLabel27);
+        jLabel27.setBounds(230, 100, 110, 14);
+
+        lbl_notransaksi.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lbl_notransaksi.setText("No Transaksi");
+        panel_transaksi.add(lbl_notransaksi);
+        lbl_notransaksi.setBounds(430, 100, 290, 14);
+
+        getContentPane().add(panel_transaksi);
+        panel_transaksi.setBounds(140, 10, 750, 430);
+
+        panel_pelanggan.setBackground(new java.awt.Color(255, 255, 255));
+        panel_pelanggan.setLayout(null);
+
+        jLabel11.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel11.setText("Pelanggan");
+        panel_pelanggan.add(jLabel11);
+        jLabel11.setBounds(0, 0, 750, 30);
 
         et_kodepelanggan.setToolTipText("Nama");
         et_kodepelanggan.addActionListener(new java.awt.event.ActionListener() {
@@ -184,16 +512,27 @@ public class Pelanggan extends javax.swing.JFrame {
         panel_pelanggan.add(et_kodepelanggan);
         et_kodepelanggan.setBounds(10, 60, 300, 20);
 
-        jLabel4.setText("Kode Pelanggan");
-        panel_pelanggan.add(jLabel4);
-        jLabel4.setBounds(10, 40, 120, 20);
+        jLabel12.setText("Kode Pelanggan");
+        panel_pelanggan.add(jLabel12);
+        jLabel12.setBounds(10, 40, 120, 20);
 
-        jLabel6.setText("Jenis Kelamin");
-        panel_pelanggan.add(jLabel6);
-        jLabel6.setBounds(10, 150, 63, 14);
+        jLabel13.setText("Jenis Kelamin");
+        panel_pelanggan.add(jLabel13);
+        jLabel13.setBounds(10, 150, 63, 14);
 
         rbLaki.setBackground(new java.awt.Color(255, 255, 255));
         rbLaki.setText("Laki - laki");
+        rbLaki.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        rbLaki.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                rbLakiStateChanged(evt);
+            }
+        });
+        rbLaki.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                rbLakiMouseClicked(evt);
+            }
+        });
         rbLaki.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 rbLakiActionPerformed(evt);
@@ -204,6 +543,12 @@ public class Pelanggan extends javax.swing.JFrame {
 
         rbPerempuan.setBackground(new java.awt.Color(255, 255, 255));
         rbPerempuan.setText("Perempuan");
+        rbPerempuan.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        rbPerempuan.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                rbPerempuanMouseClicked(evt);
+            }
+        });
         rbPerempuan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 rbPerempuanActionPerformed(evt);
@@ -212,22 +557,22 @@ public class Pelanggan extends javax.swing.JFrame {
         panel_pelanggan.add(rbPerempuan);
         rbPerempuan.setBounds(110, 170, 79, 23);
 
-        jLabel7.setText("No Handphone");
-        panel_pelanggan.add(jLabel7);
-        jLabel7.setBounds(10, 200, 100, 14);
+        jLabel14.setText("No Handphone");
+        panel_pelanggan.add(jLabel14);
+        jLabel14.setBounds(10, 200, 100, 14);
         panel_pelanggan.add(et_notelp);
         et_notelp.setBounds(10, 220, 300, 20);
 
-        jLabel8.setText("Alamat");
-        panel_pelanggan.add(jLabel8);
-        jLabel8.setBounds(10, 250, 90, 14);
+        jLabel15.setText("Alamat");
+        panel_pelanggan.add(jLabel15);
+        jLabel15.setBounds(10, 250, 90, 14);
 
         et_alamat.setColumns(20);
         et_alamat.setRows(5);
-        jScrollPane1.setViewportView(et_alamat);
+        jScrollPane2.setViewportView(et_alamat);
 
-        panel_pelanggan.add(jScrollPane1);
-        jScrollPane1.setBounds(10, 270, 300, 96);
+        panel_pelanggan.add(jScrollPane2);
+        jScrollPane2.setBounds(10, 270, 300, 96);
 
         et_caripelanggan.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
@@ -237,9 +582,9 @@ public class Pelanggan extends javax.swing.JFrame {
         panel_pelanggan.add(et_caripelanggan);
         et_caripelanggan.setBounds(320, 60, 420, 20);
 
-        jLabel9.setText("Cari Nama Pelanggan");
-        panel_pelanggan.add(jLabel9);
-        jLabel9.setBounds(320, 40, 190, 14);
+        jLabel16.setText("Cari Nama Pelanggan");
+        panel_pelanggan.add(jLabel16);
+        jLabel16.setBounds(320, 40, 190, 14);
 
         tablePelanggan.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -270,14 +615,14 @@ public class Pelanggan extends javax.swing.JFrame {
                 tablePelangganMouseClicked(evt);
             }
         });
-        jScrollPane3.setViewportView(tablePelanggan);
+        jScrollPane4.setViewportView(tablePelanggan);
 
-        panel_pelanggan.add(jScrollPane3);
-        jScrollPane3.setBounds(320, 90, 420, 330);
+        panel_pelanggan.add(jScrollPane4);
+        jScrollPane4.setBounds(320, 90, 420, 330);
 
-        jLabel10.setText("Nama Pelanggan");
-        panel_pelanggan.add(jLabel10);
-        jLabel10.setBounds(10, 90, 120, 20);
+        jLabel17.setText("Nama Pelanggan");
+        panel_pelanggan.add(jLabel17);
+        jLabel17.setBounds(10, 90, 120, 20);
 
         et_namapelanggan.setToolTipText("Nama");
         et_namapelanggan.addActionListener(new java.awt.event.ActionListener() {
@@ -332,23 +677,33 @@ public class Pelanggan extends javax.swing.JFrame {
                 btnClearpelangganMouseClicked(evt);
             }
         });
+        btnClearpelanggan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnClearpelangganActionPerformed(evt);
+            }
+        });
         panel_pelanggan.add(btnClearpelanggan);
         btnClearpelanggan.setBounds(10, 370, 300, 23);
 
         getContentPane().add(panel_pelanggan);
         panel_pelanggan.setBounds(140, 10, 750, 430);
 
-        panel_transaksi.setBackground(new java.awt.Color(255, 255, 255));
-        panel_transaksi.setLayout(null);
+        jLabel19.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel19.setIcon(new javax.swing.ImageIcon("C:\\Users\\Ami\\Downloads\\meit.png")); // NOI18N
+        getContentPane().add(jLabel19);
+        jLabel19.setBounds(900, 10, 180, 200);
 
-        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel3.setText("Transaksi");
-        panel_transaksi.add(jLabel3);
-        jLabel3.setBounds(10, 0, 690, 30);
+        jLabel18.setText("Kelas  : S6L");
+        getContentPane().add(jLabel18);
+        jLabel18.setBounds(900, 260, 150, 14);
 
-        getContentPane().add(panel_transaksi);
-        panel_transaksi.setBounds(140, 10, 30, 450);
+        jLabel20.setText("Nama : Muhamad Saami");
+        getContentPane().add(jLabel20);
+        jLabel20.setBounds(900, 220, 150, 14);
+
+        jLabel21.setText("NPM   : 201843501620");
+        getContentPane().add(jLabel21);
+        jLabel21.setBounds(900, 240, 150, 14);
 
         pack();
         setLocationRelativeTo(null);
@@ -357,16 +712,204 @@ public class Pelanggan extends javax.swing.JFrame {
     private void btn_transaksiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_transaksiMouseClicked
         // TODO add your handling code here:
         panel_transaksi.setVisible(true);
+        panel_barang.setVisible(false);
         panel_pelanggan.setVisible(false);
     }//GEN-LAST:event_btn_transaksiMouseClicked
 
     private void btn_pelangganMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_pelangganMouseClicked
         // TODO add your handling code here:
         panel_transaksi.setVisible(false);
+        panel_barang.setVisible(false);
         panel_pelanggan.setVisible(true);
         getConnection();
         getDataPelanggan();
     }//GEN-LAST:event_btn_pelangganMouseClicked
+
+    private void et_kodebarangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_et_kodebarangActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_et_kodebarangActionPerformed
+
+    private void et_namabarangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_et_namabarangActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_et_namabarangActionPerformed
+
+    private void btSimpanBarangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSimpanBarangActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btSimpanBarangActionPerformed
+
+    private void tableBarangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableBarangMouseClicked
+        // TODO add your handling code here:
+        DecimalFormat numberFormatter = new DecimalFormat("##");
+        
+        String kode = (String) tableBarang.getValueAt(tableBarang.getSelectedRow(), 0);
+        String nama = (String) tableBarang.getValueAt(tableBarang.getSelectedRow(), 1);
+        String kategori = (String) tableBarang.getValueAt(tableBarang.getSelectedRow(), 2);
+        Double hargabeli = (Double) tableBarang.getValueAt(tableBarang.getSelectedRow(), 3);
+        Double hargajual = (Double) tableBarang.getValueAt(tableBarang.getSelectedRow(), 4);
+        
+        et_kodebarang.setText(kode);
+        et_namabarang.setText(nama);
+        cb_kategori.getModel().setSelectedItem(kategori);
+        et_hargabeli.setText(numberFormatter.format(hargabeli));
+        et_hargajual.setText(numberFormatter.format(hargajual));
+    }//GEN-LAST:event_tableBarangMouseClicked
+
+    private void btnClearbarangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnClearbarangMouseClicked
+        // TODO add your handling code here:
+        clearBarangField();
+    }//GEN-LAST:event_btnClearbarangMouseClicked
+
+    private void btSimpanBarangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btSimpanBarangMouseClicked
+        // TODO add your handling code here:
+        
+        double hgbeli = Double.valueOf(et_hargabeli.getText().toString());
+        double hgjual = Double.valueOf(et_hargajual.getText().toString());
+        
+        if(et_kodebarang.getText().length() == 0 || et_namabarang.getText().length() == 0 || et_hargabeli.getText().length() == 0 || et_hargajual.getText().length() == 0)
+        {
+            JOptionPane.showMessageDialog(null, "Mohon lengkapi data barang di atas", "System", JOptionPane.DEFAULT_OPTION);
+        }
+        else if(hgbeli > hgjual){
+            
+            JOptionPane.showMessageDialog(null, "Harga beli tidak boleh lebih besar dari harga jual", "System", JOptionPane.DEFAULT_OPTION);
+        }
+        else
+        {
+            getConnection();
+                        
+            try {
+                
+                String checkBarang = "SELECT count(*) from barang WHERE kode = '"+et_kodebarang.getText().toString()+"'";
+                mnSetting.ps = mnSetting.con.prepareStatement(checkBarang);
+                final ResultSet resultSet = mnSetting.ps.executeQuery();
+                int count = 0;
+                if(resultSet.next()) {
+                   count = resultSet.getInt(1);
+                }
+                if(count > 0)
+                {
+                    JOptionPane.showMessageDialog(null, "Kode "+et_kodebarang.getText().toString()+" sudah terdaftar, mohon gunakan kode yang lain", "System", JOptionPane.DEFAULT_OPTION);
+                }else
+                {
+                    String createBarang = "insert into barang (kode,nama,jenis,harga_beli,harga_jual) values ('"+et_kodebarang.getText().toString()+"','"+et_namabarang.getText().toString()+"','"+cb_kategori.getSelectedItem().toString()+"','"+et_hargabeli.getText().toString()+"','"+et_hargajual.getText().toString()+"')";
+                    mnSetting.stm.executeUpdate(createBarang);
+                    getDataBarang();
+                    clearBarangField();
+                }
+                
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+                System.out.println("Error insert data barang\n"+ex);
+            }
+            
+        }
+        
+    }//GEN-LAST:event_btSimpanBarangMouseClicked
+
+    private void btUbahBarangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btUbahBarangMouseClicked
+        // TODO add your handling code here:
+        
+        double hgbeli = 0,hgjual = 0;
+        
+        try {
+            hgbeli = Double.valueOf(et_hargabeli.getText().toString());
+            hgjual = Double.valueOf(et_hargajual.getText().toString());
+        }catch(Exception ex)
+        {
+            ex.printStackTrace();
+        }
+        
+        if(et_kodebarang.getText().length() == 0 || et_namabarang.getText().length() == 0 || et_hargabeli.getText().length() == 0 || et_hargajual.getText().length() == 0)
+        {
+            JOptionPane.showMessageDialog(null, "Mohon lengkapi data barang di atas", "System", JOptionPane.DEFAULT_OPTION);
+        }
+        else if(hgbeli > hgjual){
+            
+            JOptionPane.showMessageDialog(null, "Harga beli tidak boleh lebih besar dari harga jual", "System", JOptionPane.DEFAULT_OPTION);
+        }
+        else
+        {
+            getConnection();
+            
+            
+            try {
+                
+                String checkBarang = "SELECT count(*) from barang WHERE kode = '"+et_kodebarang.getText().toString()+"'";
+                mnSetting.ps = mnSetting.con.prepareStatement(checkBarang);
+                final ResultSet resultSet = mnSetting.ps.executeQuery();
+                int count = 0;
+                if(resultSet.next()) {
+                   count = resultSet.getInt(1);
+                }
+                if(count > 0)
+                {
+                    String updatebarang = "update barang SET nama='"+et_namabarang.getText().toString()+"', jenis='"+cb_kategori.getSelectedItem().toString()+"', harga_beli='"+et_hargabeli.getText().toString()+"', harga_jual='"+et_hargajual.getText().toString()+"' where kode='"+et_kodebarang.getText().toString()+"'";
+                    mnSetting.stm.executeUpdate(updatebarang);
+                    JOptionPane.showMessageDialog(null, "Kode "+et_kodebarang.getText().toString()+" berhasil diperbarui", "System", JOptionPane.DEFAULT_OPTION);
+                    getDataBarang();
+                    clearBarangField();
+                }else
+                {
+                    JOptionPane.showMessageDialog(null, "Kode "+et_kodebarang.getText().toString()+" tidak dikenal, Silahkan pilih salah satu daftar barang dikanan untuk mendapatkan kode pelanggan", "System", JOptionPane.DEFAULT_OPTION);
+                }
+                
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+                System.out.println("Error update data barang\n"+ex);
+            }
+            
+        }
+    }//GEN-LAST:event_btUbahBarangMouseClicked
+
+    private void btHapusBarangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btHapusBarangMouseClicked
+        // TODO add your handling code here:
+        if(et_kodebarang.getText().length() == 0 || et_namabarang.getText().length() == 0 || et_hargabeli.getText().length() == 0 ||  et_hargajual.getText().length() == 0)
+        {
+            JOptionPane.showMessageDialog(null, "Mohon pilih daftar barang di kanan", "System", JOptionPane.DEFAULT_OPTION);
+        }else
+        {
+            getConnection();            
+            try {
+                
+                
+                
+                String checkBarang = "SELECT count(*) from barang WHERE kode = '"+et_kodebarang.getText().toString()+"'";
+                mnSetting.ps = mnSetting.con.prepareStatement(checkBarang);
+                final ResultSet resultSet = mnSetting.ps.executeQuery();
+                int count = 0;
+                if(resultSet.next()) {
+                   count = resultSet.getInt(1);
+                }
+                if(count > 0)
+                {
+                    
+                    int dialogResult = JOptionPane.showConfirmDialog (null, "Apakah kamu yakin ingin menghapus kode "+et_kodebarang.getText().toString()+"?","Warning",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
+                    if(dialogResult == JOptionPane.YES_OPTION){
+                       String deletePelanggan = "delete from barang WHERE kode='"+et_kodebarang.getText().toString()+"'";
+                        mnSetting.stm.executeUpdate(deletePelanggan);
+                        JOptionPane.showMessageDialog(null, "Kode "+et_kodebarang.getText().toString()+" berhasil dihapus", "System", JOptionPane.DEFAULT_OPTION);
+                        getDataBarang(); 
+                        clearBarangField();
+                    }
+                    
+                }else
+                {
+                    JOptionPane.showMessageDialog(null, "Kode "+et_kodebarang.getText().toString()+" tidak dikenal, Silahkan pilih salah satu daftar barang dikanan untuk mendapatkan kode pelanggan", "System", JOptionPane.DEFAULT_OPTION);
+                }
+                
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+                System.out.println("Error delete data barang\n"+ex);
+            }
+            
+        }
+    }//GEN-LAST:event_btHapusBarangMouseClicked
+
+    private void et_caribarangKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_et_caribarangKeyTyped
+        // TODO add your handling code here:
+        System.out.println("typed");
+        CariBarang();
+    }//GEN-LAST:event_et_caribarangKeyTyped
 
     private void et_kodepelangganActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_et_kodepelangganActionPerformed
         // TODO add your handling code here:
@@ -374,35 +917,21 @@ public class Pelanggan extends javax.swing.JFrame {
 
     private void rbLakiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbLakiActionPerformed
         // TODO add your handling code here:
-           if(rbLaki.isSelected())
-           {
-               rbPerempuan.setSelected(false);
-           }
-           jkel = rbLaki.getText().toString();
     }//GEN-LAST:event_rbLakiActionPerformed
 
     private void rbPerempuanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbPerempuanActionPerformed
         // TODO add your handling code here:
-        if(rbPerempuan.isSelected())
-           {
-               rbLaki.setSelected(false);
-           }
-        
-        jkel = rbPerempuan.getText().toString();
-        //button groupnya ngebug , di drag tapi ngk muncul
     }//GEN-LAST:event_rbPerempuanActionPerformed
 
-    private void et_namapelangganActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_et_namapelangganActionPerformed
+    private void et_caripelangganKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_et_caripelangganKeyTyped
         // TODO add your handling code here:
-    }//GEN-LAST:event_et_namapelangganActionPerformed
-
-    private void btSimpanPelangganActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSimpanPelangganActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btSimpanPelangganActionPerformed
+        System.out.println("typed");
+        CariPelanggan();
+    }//GEN-LAST:event_et_caripelangganKeyTyped
 
     private void tablePelangganMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablePelangganMouseClicked
         // TODO add your handling code here:
-        String kode = (String) tablePelanggan.getValueAt(tablePelanggan.getSelectedRow(), 0);
+         String kode = (String) tablePelanggan.getValueAt(tablePelanggan.getSelectedRow(), 0);
         String nama = (String) tablePelanggan.getValueAt(tablePelanggan.getSelectedRow(), 1);
         String jeniskelamin = (String) tablePelanggan.getValueAt(tablePelanggan.getSelectedRow(), 2);
         String notelp = (String) tablePelanggan.getValueAt(tablePelanggan.getSelectedRow(), 3);
@@ -423,14 +952,16 @@ public class Pelanggan extends javax.swing.JFrame {
         et_alamat.setText(alamat);
     }//GEN-LAST:event_tablePelangganMouseClicked
 
-    private void btnClearpelangganMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnClearpelangganMouseClicked
+    private void et_namapelangganActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_et_namapelangganActionPerformed
         // TODO add your handling code here:
-        clearPelangganField();
-    }//GEN-LAST:event_btnClearpelangganMouseClicked
+    }//GEN-LAST:event_et_namapelangganActionPerformed
 
     private void btSimpanPelangganMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btSimpanPelangganMouseClicked
         // TODO add your handling code here:
-        
+    }//GEN-LAST:event_btSimpanPelangganMouseClicked
+
+    private void btSimpanPelangganActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSimpanPelangganActionPerformed
+        // TODO add your handling code here:
         if(rbLaki.isSelected())
         {
             jkel = rbLaki.getText().toString();
@@ -474,8 +1005,7 @@ public class Pelanggan extends javax.swing.JFrame {
             }
             
         }
-        
-    }//GEN-LAST:event_btSimpanPelangganMouseClicked
+    }//GEN-LAST:event_btSimpanPelangganActionPerformed
 
     private void btUbahPelangganMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btUbahPelangganMouseClicked
         // TODO add your handling code here:
@@ -509,7 +1039,7 @@ public class Pelanggan extends javax.swing.JFrame {
                 {
                     String updatePelanggan = "update pelanggan SET nama='"+et_namapelanggan.getText().toString()+"', jeniskelamin='"+jkel+"', notelp='"+et_notelp.getText().toString()+"', alamat='"+et_alamat.getText().toString()+"' where kode='"+et_kodepelanggan.getText().toString()+"'";
                     mnSetting.stm.executeUpdate(updatePelanggan);
-                    JOptionPane.showMessageDialog(null, "Kode "+et_kodepelanggan.getText().toString()+" berhasil diperbarui", "System", JOptionPane.DEFAULT_OPTION);
+                    JOptionPane.showMessageDialog(null, "Kode "+et_kodebarang.getText().toString()+" berhasil diperbarui", "System", JOptionPane.DEFAULT_OPTION);
                     getDataPelanggan();
                     clearPelangganField();
                 }else
@@ -569,11 +1099,72 @@ public class Pelanggan extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btHapusPelangganMouseClicked
 
-    private void et_caripelangganKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_et_caripelangganKeyTyped
+    private void btnClearpelangganMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnClearpelangganMouseClicked
         // TODO add your handling code here:
-        System.out.println("typed");
-        CariPelanggan();
-    }//GEN-LAST:event_et_caripelangganKeyTyped
+        clearPelangganField();
+    }//GEN-LAST:event_btnClearpelangganMouseClicked
+
+    private void et_hargajualActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_et_hargajualActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_et_hargajualActionPerformed
+
+    private void btnClearpelangganActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearpelangganActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnClearpelangganActionPerformed
+
+    private void btn_barangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_barangMouseClicked
+        panel_transaksi.setVisible(false);
+        panel_pelanggan.setVisible(false);
+        panel_barang.setVisible(true);
+        getConnection();
+        getDataBarang();        // TODO add your handling code here:
+    }//GEN-LAST:event_btn_barangMouseClicked
+
+    private void btn_laporanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_laporanActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btn_laporanActionPerformed
+
+    private void rbLakiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rbLakiMouseClicked
+        // TODO add your handling code here:
+        rbLaki.setSelected(true);
+        if(rbLaki.isSelected())
+        {
+           rbPerempuan.setSelected(false);
+        }else
+        {
+            
+        }
+        
+        
+    }//GEN-LAST:event_rbLakiMouseClicked
+
+    private void rbPerempuanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rbPerempuanMouseClicked
+        // TODO add your handling code here:
+        rbPerempuan.setSelected(true);
+        if(rbPerempuan.isSelected())
+        {
+           rbLaki.setSelected(false);
+        }else
+        {
+            
+        }
+    }//GEN-LAST:event_rbPerempuanMouseClicked
+
+    private void rbLakiStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_rbLakiStateChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_rbLakiStateChanged
+
+    private void et_carinotransaksiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_et_carinotransaksiActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_et_carinotransaksiActionPerformed
+
+    private void btn_tambahtransaksiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_tambahtransaksiMouseClicked
+        // TODO add your handling code here:
+        
+        Transaksi trs = new Transaksi();
+        trs.setVisible(true);
+        
+    }//GEN-LAST:event_btn_tambahtransaksiMouseClicked
 
     /**
      * @param args the command line arguments
@@ -637,6 +1228,14 @@ public class Pelanggan extends javax.swing.JFrame {
         et_alamat.setText("");
     }
     
+        public void clearBarangField()
+    {
+        et_kodebarang.setText("");
+        et_namabarang.setText("");
+        et_hargabeli.setText("");
+        et_hargajual.setText("");
+    }
+    
     public void getDataPelanggan()
     {
         ArrayList<DataPelanggan> arraylist_pelanggan = new ArrayList<>();
@@ -663,6 +1262,36 @@ public class Pelanggan extends javax.swing.JFrame {
             row[3] = arraylist_pelanggan.get(i).getNotelp();
             row[4] = arraylist_pelanggan.get(i).getAlamat();
             model_Pelanggan.addRow(row);
+        }
+        
+    }
+    
+    public void getDataBarang()
+    {
+        ArrayList<DataBarang> arraylist_barang = new ArrayList<>();
+            
+        try {
+            String select_barang = "select *from barang";
+            ResultSet rs_barang = mnSetting.stm.executeQuery(select_barang);
+            DataBarang dtBarang;
+            while (rs_barang.next()) {
+                dtBarang = new DataBarang(rs_barang.getString("kode"), rs_barang.getString("nama"), rs_barang.getString("jenis"), rs_barang.getDouble("harga_beli"), rs_barang.getDouble("harga_jual"));
+                arraylist_barang.add(dtBarang);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        
+        DefaultTableModel model_Barang = (DefaultTableModel)tableBarang.getModel();
+        model_Barang.setRowCount(0);
+        Object[] row = new Object[5];
+        for (int i = 0; i<arraylist_barang.size(); i++) {
+            row[0] = arraylist_barang.get(i).getKode();
+            row[1] = arraylist_barang.get(i).getNama();
+            row[2] = arraylist_barang.get(i).getKategori();
+            row[3] = arraylist_barang.get(i).getHargabeli();
+            row[4] = arraylist_barang.get(i).getHargajual();
+            model_Barang.addRow(row);
         }
         
     }
@@ -698,24 +1327,82 @@ public class Pelanggan extends javax.swing.JFrame {
         }
         
     }
+    
+    public void CariBarang()
+    {
+        
+        ArrayList<DataBarang> arraylist_barang = new ArrayList<>();
+            
+        try {
+            String select_barang = "select * from barang where nama like '%" + et_caribarang.getText().toString() + "%'";
+            ResultSet rs_barang = mnSetting.stm.executeQuery(select_barang);
+            DataBarang dtBarang;
+            while (rs_barang.next()) {
+                dtBarang = new DataBarang(rs_barang.getString("kode"), rs_barang.getString("nama"), rs_barang.getString("jenis"), rs_barang.getDouble("harga_beli"), rs_barang.getDouble("harga_jual"));
+                arraylist_barang.add(dtBarang);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        
+        DefaultTableModel model_Barang = (DefaultTableModel)tableBarang.getModel();
+        model_Barang.setRowCount(0);
+        Object[] row = new Object[5];
+        for (int i = 0; i<arraylist_barang.size(); i++) {
+            row[0] = arraylist_barang.get(i).getKode();
+            row[1] = arraylist_barang.get(i).getNama();
+            row[2] = arraylist_barang.get(i).getKategori();
+            row[3] = arraylist_barang.get(i).getHargabeli();
+            row[4] = arraylist_barang.get(i).getHargajual();
+            model_Barang.addRow(row);
+        }
+        
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btHapusBarang;
     private javax.swing.JButton btHapusPelanggan;
+    private javax.swing.JButton btSimpanBarang;
     private javax.swing.JButton btSimpanPelanggan;
+    private javax.swing.JButton btUbahBarang;
     private javax.swing.JButton btUbahPelanggan;
+    private javax.swing.JButton btnClearbarang;
     private javax.swing.JButton btnClearpelanggan;
     private javax.swing.JButton btn_barang;
     private javax.swing.JButton btn_laporan;
     private javax.swing.JButton btn_pelanggan;
+    private javax.swing.JButton btn_tambahtransaksi;
     private javax.swing.JButton btn_transaksi;
+    private javax.swing.JComboBox<String> cb_kategori;
     private javax.swing.JTextArea et_alamat;
+    private javax.swing.JTextField et_caribarang;
+    private javax.swing.JTextField et_carinotransaksi;
     private javax.swing.JTextField et_caripelanggan;
+    private javax.swing.JTextField et_hargabeli;
+    private javax.swing.JTextField et_hargajual;
+    private javax.swing.JTextField et_kodebarang;
     private javax.swing.JTextField et_kodepelanggan;
+    private javax.swing.JTextField et_namabarang;
     private javax.swing.JTextField et_namapelanggan;
     private javax.swing.JTextField et_notelp;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel21;
+    private javax.swing.JLabel jLabel22;
+    private javax.swing.JLabel jLabel23;
+    private javax.swing.JLabel jLabel26;
+    private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -725,11 +1412,21 @@ public class Pelanggan extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JLabel lbl_namapelanggan;
+    private javax.swing.JLabel lbl_notransaksi;
+    private javax.swing.JLabel lbl_totaltransaksi;
+    private javax.swing.JPanel panel_barang;
     private javax.swing.JPanel panel_pelanggan;
     private javax.swing.JPanel panel_transaksi;
     private javax.swing.JRadioButton rbLaki;
     private javax.swing.JRadioButton rbPerempuan;
+    private javax.swing.JTable tableBarang;
     private javax.swing.JTable tablePelanggan;
+    private javax.swing.JTable tableTrheader;
+    private javax.swing.JTable tableTrlines;
     // End of variables declaration//GEN-END:variables
 }

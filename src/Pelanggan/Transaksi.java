@@ -1,0 +1,311 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package Pelanggan;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
+import javax.swing.table.DefaultTableModel;
+import penjualan.MainSystemSetting;
+
+/**
+ *
+ * @author Ami
+ */
+public class Transaksi extends javax.swing.JFrame {
+    
+    public MainSystemSetting mnSetting = new MainSystemSetting();
+    DecimalFormat numberFormatter = new DecimalFormat("##");
+    DecimalFormat rupiahFormatter = new DecimalFormat("#,###.###");
+    double totalTr = 0;
+
+    /**
+     * Creates new form Transaksi
+     */
+    public Transaksi() {
+        initComponents();
+        getCbpelanggan();
+        getCbbarang();
+        
+        cb_barang.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(cb_barang.getSelectedIndex() == 0)
+                {
+                    
+                }else {
+                System.out.println(cb_barang.getSelectedItem().toString());
+                String[] barang = cb_barang.getSelectedItem().toString().split(" - ");
+                
+                DefaultTableModel model_daftarBelanja = (DefaultTableModel)tableDaftarbelanja.getModel();
+                Object[] row = new Object[5];
+                row[0] = barang[0];
+                row[1] = barang[1];
+                row[2] = Double.valueOf(barang[2]);
+                row[3] = 1;
+                row[4] = Double.valueOf(barang[2]);
+                model_daftarBelanja.addRow(row);
+                
+                }
+                
+                
+            }
+        });
+        
+        tableDaftarbelanja.getModel().addTableModelListener(
+        new TableModelListener() 
+        {
+            public void tableChanged(TableModelEvent evt) 
+            {
+                 // here goes your code "on cell update"
+                totalTr = 0;
+                
+                for (int i = 0; i < tableDaftarbelanja.getRowCount(); i++) {  // Loop through the rows
+                    // Record the 5th column value (index 4)
+                    double hargaTr = (double) tableDaftarbelanja.getValueAt(i, 4);
+                    int qtyTr = (int) tableDaftarbelanja.getValueAt(i, 3);
+                    
+                    totalTr = (hargaTr*qtyTr) + totalTr;
+                 }
+                lbl_total.setText(rupiahFormatter.format(totalTr));
+                
+            }
+        });
+    }
+    
+    public void getCbpelanggan()
+    {
+        
+        ArrayList<DataPelanggan> arraylist_pelanggan = new ArrayList<>();
+        
+         try {
+            String select_pelanggan = "select *from pelanggan";
+            ResultSet rs_pelanggan = mnSetting.stm.executeQuery(select_pelanggan);
+            DataPelanggan dtPelanggan;
+            while (rs_pelanggan.next()) {
+                dtPelanggan = new DataPelanggan(rs_pelanggan.getString("kode"), rs_pelanggan.getString("nama"), rs_pelanggan.getString("jeniskelamin"), rs_pelanggan.getString("notelp"), rs_pelanggan.getString("alamat"));
+                arraylist_pelanggan.add(dtPelanggan);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        
+        for (int i = 0; i<arraylist_pelanggan.size(); i++) {
+            cb_pelanggan.addItem(arraylist_pelanggan.get(i).getKode()+" - "+arraylist_pelanggan.get(i).getNama());
+        }
+        
+    }
+    
+    
+    public void getCbbarang() {
+        
+        ArrayList<DataBarang> arraylist_barang = new ArrayList<>();
+        
+        try {
+            String select_barang = "select *from barang";
+            ResultSet rs_barang = mnSetting.stm.executeQuery(select_barang);
+            DataBarang dtBarang;
+            while (rs_barang.next()) {
+                dtBarang = new DataBarang(rs_barang.getString("kode"), rs_barang.getString("nama"), rs_barang.getString("jenis"), rs_barang.getDouble("harga_beli"), rs_barang.getDouble("harga_jual"));
+                arraylist_barang.add(dtBarang);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+            
+        cb_barang.addItem("== Pilih Barang ==");
+        for (int i = 0; i<arraylist_barang.size(); i++) {
+            cb_barang.addItem(arraylist_barang.get(i).getKode()+" - "+arraylist_barang.get(i).getNama()+" - "+numberFormatter.format(arraylist_barang.get(i).getHargajual()));
+        }
+        
+    }
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        jLabel1 = new javax.swing.JLabel();
+        cb_pelanggan = new javax.swing.JComboBox<>();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        cb_barang = new javax.swing.JComboBox<>();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tableDaftarbelanja = new javax.swing.JTable();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        lbl_total = new javax.swing.JLabel();
+        btn_simpantransaksi = new javax.swing.JButton();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setMinimumSize(new java.awt.Dimension(412, 626));
+        setSize(new java.awt.Dimension(412, 626));
+
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("TRANSAKSI");
+
+        jLabel2.setText("Pilih Pelanggan");
+
+        jLabel3.setText("Pilih Barang");
+
+        tableDaftarbelanja.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Kode", "Nama", "Harga", "Qty", "Total"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.Double.class, java.lang.Integer.class, java.lang.Double.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, true, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(tableDaftarbelanja);
+
+        jLabel4.setText("Rincian");
+
+        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel5.setText("Total Transaksi :");
+
+        lbl_total.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        lbl_total.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lbl_total.setText("Total");
+
+        btn_simpantransaksi.setText("SIMPAN");
+        btn_simpantransaksi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_simpantransaksiActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btn_simpantransaksi, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(cb_pelanggan, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(cb_barang, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(lbl_total, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(cb_pelanggan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(cb_barang, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(34, 34, 34)
+                .addComponent(jLabel4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(lbl_total))
+                .addGap(62, 62, 62)
+                .addComponent(btn_simpantransaksi, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(71, Short.MAX_VALUE))
+        );
+
+        pack();
+        setLocationRelativeTo(null);
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void btn_simpantransaksiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_simpantransaksiActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btn_simpantransaksiActionPerformed
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(Transaksi.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(Transaksi.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(Transaksi.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(Transaksi.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new Transaksi().setVisible(true);
+            }
+        });
+    }
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btn_simpantransaksi;
+    private javax.swing.JComboBox<String> cb_barang;
+    private javax.swing.JComboBox<String> cb_pelanggan;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lbl_total;
+    private javax.swing.JTable tableDaftarbelanja;
+    // End of variables declaration//GEN-END:variables
+
+}
