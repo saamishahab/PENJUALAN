@@ -28,7 +28,7 @@ CREATE TABLE IF NOT EXISTS `barang` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 
--- Dumping data for table penjualan620.barang: ~3 rows (approximately)
+-- Dumping data for table penjualan620.barang: ~2 rows (approximately)
 /*!40000 ALTER TABLE `barang` DISABLE KEYS */;
 REPLACE INTO `barang` (`id`, `kode`, `nama`, `jenis`, `harga_beli`, `harga_jual`) VALUES
 	(1, 'B001', 'Komputer', 'Komputer Hardware', 7000000, 10000000),
